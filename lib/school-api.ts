@@ -88,8 +88,14 @@ const API_V1 = `${API_BASE_URL}/api/v1`;
 
 export function resolveMediaUrl(path?: string | null): string {
   if (!path) return "/placeholder-news.svg";
-  if (path.startsWith("http://") || path.startsWith("https://")) return path;
-  return `${API_BASE_URL}${path.startsWith("/") ? path : `/${path}`}`;
+  if (
+    path.startsWith("http://") ||
+    path.startsWith("https://") ||
+    path.startsWith("data:")
+  ) {
+    return path;
+  }
+  return `${API_BASE_URL}${path}`;
 }
 
 export function formatNewsDate(date: string | Date): string {

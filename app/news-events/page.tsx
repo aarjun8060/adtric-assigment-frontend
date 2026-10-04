@@ -39,6 +39,7 @@ export default async function NewsEventsRoute({
         listNewsEvents({ page: 1, limit: 1, category: value }),
       ),
     ]);
+    console.log("result", result, counts);
     if (result.success) {
       items = result.data;
       pagination = result.pagination;

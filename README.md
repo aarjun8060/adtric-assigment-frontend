@@ -1,241 +1,120 @@
-# One Click Drive - Project Management Dashboard
+# The Manthan School — News, Events & Admissions
 
-A modern, full-stack project management application built with Next.js 15, featuring real-time collaboration, task management, and team coordination tools.
+The public website and school administration frontend for The Manthan School. Visitors can browse published school updates and send admission enquiries. School administrators can manage News & Events and review enquiries.
 
-## 🚀 Features
+## Features
 
-### Core Functionality
+- Responsive school website with an event diary, News & Events listing, and article pages.
+- API-backed category filters and pagination for published stories.
+- Admission enquiry form with field-level validation and submission feedback.
+- Separate school admin sign-in at `/admin/login`.
+- Admin News & Events create, edit, publish, and delete screens.
+- Admin enquiry list with status filtering, pagination, CRM delivery results, and CRM retry.
+- Admin JWT stored in an HttpOnly cookie; requests to protected API endpoints are proxied through Next.js route handlers.
 
-- **Project Management**: Create, organize, and track multiple projects
-- **Task Management**: Comprehensive task creation, assignment, and status tracking
-- **Real-time Notifications**: Live updates for task status changes and project activities
-- **User Authentication**: Secure login/register system with JWT tokens
-- **Dashboard Analytics**: Overview of projects, tasks, and team performance
-- **Responsive Design**: Mobile-first approach with modern UI components
+## Routes
 
-### Advanced Features
+| Route | Description |
+|---|---|
+| `/` | School event diary and admission enquiry form |
+| `/event-diary` | Event diary |
+| `/news-events` | Published stories, categories, and pagination |
+| `/news-events/[slug]` | Published article details |
+| `/enquiry` | Admission enquiry form |
+| `/admin/login` | School administrator sign-in |
+| `/admin/news-events` | Manage News & Events |
+| `/admin/news-events/new` | Create a News & Events item |
+| `/admin/news-events/[id]/edit` | Edit a News & Events item |
+| `/admin/enquiries` | Review and update admission enquiries |
 
-- **Real-time Collaboration**: WebSocket-based live updates
-- **Drag & Drop Interface**: Intuitive task management with @dnd-kit
-- **Search & Filtering**: Advanced search capabilities across projects and tasks
-- **Theme Support**: Dark/light mode with customizable themes
-- **Notification System**: Toast notifications and notification center
-- **Data Tables**: Sortable, filterable tables with pagination
+## Stack
 
-## 🛠️ Tech Stack
+- Next.js 15.5, React 19, and TypeScript
+- Tailwind CSS 4, Radix UI, and Lucide icons
+- React Hook Form and Zod
+- Express API with MongoDB and Mongoose (in `../api`)
 
-### Frontend
+## Requirements
 
-- **Framework**: Next.js 15 with App Router
-- **Language**: TypeScript
-- **Styling**: Tailwind CSS v4
-- **UI Components**: Radix UI primitives
-- **State Management**: Zustand
-- **Forms**: React Hook Form with Zod validation
-- **Real-time**: Socket.io Client
-- **Notifications**: Sonner toast library
-- **Drag & Drop**: @dnd-kit
-- **Data Tables**: TanStack Table
+- Node.js 18.18 or later
+- npm
+- MongoDB, configured for the API
 
-### Backend Integration
+## Local development
 
-- **API**: RESTful API with Express.js
-- **Authentication**: JWT-based auth
-- **Database**: MongoDB with Mongoose
-- **Real-time**: Socket.io for live updates
+From the repository root, run the API and frontend in separate terminals.
 
-## 📦 Installation
-
-### Prerequisites
-
-- Node.js 18+
-- npm or yarn
-- MongoDB (local or cloud)
-
-### Setup Instructions
-
-1. **Clone the repository**
-
-   ```bash
-   git clone <repository-url>
-   cd braindx-frontend
-   ```
-
-2. **Install dependencies**
-
-   ```bash
-   npm install
-   ```
-
-3. **Environment Setup**
-   Create a `.env.local` file in the root directory:
-
-   ```env
-   NEXT_PUBLIC_API_URL=http://localhost:3001
-   NEXT_PUBLIC_SOCKET_URL=http://localhost:3001
-   ```
-
-4. **Start the development server**
-
-   ```bash
-   npm run dev
-   ```
-
-5. **Open your browser**
-   Navigate to [http://localhost:3000](http://localhost:3000)
-
-## 🏗️ Project Structure
-
-```
-one-click-drive/
-├── app/                          # Next.js App Router
-│   ├── (panel)/                  # Dashboard panel routes
-│   │   ├── dashboard/            # Main dashboard
-│   │   ├── projects/             # Project management
-│   │   ├── tasks/                # Task management
-│   │   └── settings/             # User settings
-│   ├── (website)/                # Public website routes
-│   ├── api/                      # API routes
-│   ├── auth/                     # Authentication pages
-│   └── layout.tsx                # Root layout
-├── components/                   # Reusable components
-│   ├── auth/                     # Authentication components
-│   ├── dashboard/                # Dashboard-specific components
-│   │   ├── dialogs/              # Modal dialogs
-│   │   ├── table/                # Data table components
-│   │   └── *.tsx                 # Dashboard components
-│   ├── ui/                       # Base UI components
-│   └── website/                  # Website components
-├── hooks/                        # Custom React hooks
-├── lib/                          # Utility libraries
-├── store/                        # Zustand stores
-├── types/                        # TypeScript type definitions
-├── utils/                        # Utility functions
-└── config/                       # Configuration files
-```
-
-## 🎯 Key Components
-
-### Dashboard Components
-
-- **AppSidebar**: Navigation sidebar with project/task links
-- **ProjectsPageClient**: Project management interface
-- **TasksPageClient**: Task management interface
-- **RealtimeNotificationToast**: Live notification system
-- **NotificationPopover**: Notification center
-- **DataTable**: Advanced data table with sorting/filtering
-
-### Authentication
-
-- **LoginForm**: User authentication form
-- **useAuth**: Authentication hook with JWT handling
-- **Auth middleware**: Route protection
-
-### Real-time Features
-
-- **useRealtime**: WebSocket connection management
-- **useSocket**: Socket.io integration
-- **Notification System**: Live updates and toast notifications
-
-## 🔧 Available Scripts
+### 1. Configure and start the API
 
 ```bash
-# Development
-npm run dev          # Start development server
-npm run build        # Build for production
-npm run start        # Start production server
-
-# Code Quality
-npm run lint         # Run ESLint
-npm run format       # Format code with Prettier
-
-# Database (if using Prisma)
-npm run db:push      # Push schema changes
-npm run db:seed      # Seed database
+cd api
+npm install
+cp .env.sample .env
 ```
 
-## 🌐 API Integration
+Set at least `MONGODB_URL` and `ADMIN_JWT_SECRET` in `api/.env`. To seed the initial administrator, also set `ADMIN_EMAIL`, `ADMIN_PASSWORD`, and optionally `ADMIN_NAME`.
 
-The frontend integrates with a backend API for:
+```bash
+npm run seed:admin
+npm run seed:school-data
+npm run dev
+```
 
-- **Authentication**: Login/logout endpoints
-- **Projects**: CRUD operations for projects
-- **Tasks**: Task management and status updates
-- **Users**: User profile management
-- **Notifications**: Real-time notification system
+The API listens on `http://localhost:5000` by default. `seed:school-data` inserts sample News & Events and demo enquiries when they are missing; use it for local or development databases.
 
-### API Endpoints
+### 2. Configure and start the frontend
 
-- `POST /api/login` - User authentication
-- `POST /api/logout` - User logout
-- `GET /api/projects` - Fetch projects
-- `POST /api/projects` - Create project
-- `GET /api/tasks` - Fetch tasks
-- `POST /api/tasks` - Create task
-- `PUT /api/tasks/:id` - Update task
+In `web/.env.local`, set the API origin:
 
-## 🎨 Theming
+```env
+NEXT_PUBLIC_API_URL=http://localhost:5000
+```
 
-The application supports:
+Then run:
 
-- **Light/Dark Mode**: Automatic theme switching
-- **Custom Themes**: Multiple theme presets
-- **Responsive Design**: Mobile-first approach
-- **Accessibility**: WCAG compliant components
+```bash
+cd web
+npm install
+npm run dev
+```
 
-## 🔒 Security Features
+Open [http://localhost:3000](http://localhost:3000). The API origin should be the base URL only; frontend requests add `/api/v1` as needed.
 
-- **JWT Authentication**: Secure token-based auth
-- **Route Protection**: Protected dashboard routes
-- **Input Validation**: Zod schema validation
-- **XSS Protection**: Sanitized user inputs
-- **CSRF Protection**: Built-in Next.js protection
+## Scripts
 
-## 📱 Responsive Design
+```bash
+npm run dev       # Start the Next.js development server
+npm run build     # Create a production build
+npm run start     # Serve the production build
+npm run lint      # Run Next.js ESLint checks
+npm run format    # Format files with Prettier
+```
 
-- **Mobile-First**: Optimized for mobile devices
-- **Breakpoints**: Tailwind CSS responsive utilities
-- **Touch-Friendly**: Optimized touch interactions
-- **Progressive Enhancement**: Works without JavaScript
+## API and environment
 
-## 🚀 Deployment
+The frontend reads `NEXT_PUBLIC_API_URL` for public News & Events and enquiry requests, and for the server-side admin API proxy. The API environment variables, admin seeding, CRM webhook setup, and REST endpoints are documented in [the API README](../api/README.md).
 
-### Vercel (Recommended)
+For local development, allow the frontend origin in the API's `CORS_ORIGIN`, for example:
 
-1. Connect your GitHub repository to Vercel
-2. Set environment variables in Vercel dashboard
-3. Deploy automatically on push to main branch
+```env
+CORS_ORIGIN=http://localhost:3000
+```
 
-### Other Platforms
+## Deployment
 
-- **Netlify**: Static site deployment
-- **Railway**: Full-stack deployment
-- **Docker**: Containerized deployment
+Deploy the frontend and API as separate Vercel projects:
 
-## 🤝 Contributing
+1. Set the frontend project's Root Directory to `web`.
+2. Set the API project's Root Directory to `api`.
+3. In the frontend project, set `NEXT_PUBLIC_API_URL` to the deployed API origin, without `/api/v1`.
+4. In the API project, configure its environment variables as described in [the API README](../api/README.md), including `CORS_ORIGIN` with the deployed frontend origin.
 
-1. Fork the repository
-2. Create a feature branch (`git checkout -b feature/amazing-feature`)
-3. Commit your changes (`git commit -m 'Add amazing feature'`)
-4. Push to the branch (`git push origin feature/amazing-feature`)
-5. Open a Pull Request
+The API currently writes uploaded News & Events images to its local filesystem. Vercel function files are not persistent storage, so configure durable object storage before relying on image uploads in production.
 
-## 📄 License
+## Repository layout
 
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
-
-## 👥 Team
-
-- **Arjun Singh** - Full Stack Developer
-- **Braindx Assignment** - Project Management System
-
-## 📞 Support
-
-For support and questions:
-
-- Create an issue in the repository
-- Contact: [your-email@example.com]
-
----
-
-**Built with ❤️ using Next.js, TypeScript, and Tailwind CSS**
+```text
+adtric-assignment/
+├── api/       Express API, database models, routes, and seed scripts
+└── web/       Next.js public website and school admin frontend
+```

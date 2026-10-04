@@ -246,6 +246,7 @@ export function NewsEventsPage({
   category?: NewsCategory;
   categoryCounts: Record<NewsCategory, number>;
 }) {
+  console.log("categoryCounts", items, pagination, category, categoryCounts);
   return (
     <PublicShell>
       <main className="bg-[#f8f9ff]">

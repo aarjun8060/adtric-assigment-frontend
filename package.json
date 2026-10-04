@@ -1,6 +1,6 @@
 {
-  "name": "chatastro-frontend",
-  "description": "Your AI-Powered Astrologer | Chat with your Astrologer | chatastro",
+  "name": "manthan-school-web",
+  "description": "The Manthan School public website and administration frontend",
   "version": "0.1.0",
   "private": true,
   "scripts": {
