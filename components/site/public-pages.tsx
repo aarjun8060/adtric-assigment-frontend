@@ -8,7 +8,13 @@ import {
   MapPin,
   Sparkles,
 } from "lucide-react";
-import { NewsCategory, NewsEvent, Pagination, formatNewsDate, resolveMediaUrl } from "@/lib/school-api";
+import {
+  NewsCategory,
+  NewsEvent,
+  Pagination,
+  formatNewsDate,
+  resolveMediaUrl,
+} from "@/lib/school-api";
 import { EnquiryForm } from "@/components/site/enquiry-form";
 import { SiteHeader } from "@/components/site/header";
 import { SiteFooter } from "@/components/site/footer";
@@ -172,7 +178,13 @@ export function EventDiaryPage({ items }: { items: NewsEvent[] }) {
             </p>
             <TrustPoints />
             <div className="mt-6 flex max-w-md gap-3 rounded-3xl bg-[#8e0047] p-4">
-              {items[0]?.image && <img src={resolveMediaUrl(items[0].image)} alt="A Manthan learner" className="h-16 w-20 rounded-xl object-cover" />}
+              {items[0]?.image && (
+                <img
+                  src={resolveMediaUrl(items[0].image)}
+                  alt="A Manthan learner"
+                  className="h-16 w-20 rounded-xl object-cover"
+                />
+              )}
               <div>
                 <p className="text-sm font-extrabold">
                   Need immediate assistance?
@@ -268,7 +280,12 @@ export function NewsEventsPage({
           </span>
           <Wave color="#f8f9ff" />
         </section>
-        <NewsEventsGrid items={items} pagination={pagination} category={category} categoryCounts={categoryCounts} />
+        <NewsEventsGrid
+          items={items}
+          pagination={pagination}
+          category={category}
+          categoryCounts={categoryCounts}
+        />
         <section className="relative overflow-hidden bg-[#001c3a] px-5 py-12 text-white md:px-10 md:py-14">
           <div className="mx-auto flex max-w-7xl flex-col justify-between gap-6 sm:flex-row sm:items-center">
             <div>
@@ -301,34 +318,222 @@ export function NewsEventsPage({
 function LatestUpdates({ items }: { items: NewsEvent[] }) {
   return (
     <aside className="rounded-3xl border border-[#d7e4f5] bg-white p-5 shadow-sm">
-      <div className="flex items-center justify-between"><h2 className="font-display text-sm font-extrabold uppercase text-[#355f96]">Latest updates</h2><span className="rounded-full bg-[#e4efff] px-2 py-1 text-[9px] font-bold uppercase text-[#00666e]">Bulletin</span></div>
-      <div className="mt-4 space-y-4">{items.map((item) => <Link href={`/news-events/${item.slug}`} key={item.id} className="flex gap-3"><img src={resolveMediaUrl(item.image)} alt="" className="size-14 shrink-0 rounded-xl object-cover"/><span className="min-w-0"><span className="block text-[10px] font-bold text-[#b5005d]">{formatNewsDate(item.date)}</span><span className="mt-1 line-clamp-2 block text-xs font-bold leading-4 text-[#101c29]">{item.title}</span></span></Link>)}</div>
-      <Link href="/news-events" className="mt-4 inline-flex items-center gap-1 text-[10px] font-extrabold text-[#b5005d]">View all stories <ArrowRight size={12}/></Link>
+      <div className="flex items-center justify-between">
+        <h2 className="font-display text-sm font-extrabold uppercase text-[#355f96]">
+          Latest updates
+        </h2>
+        <span className="rounded-full bg-[#e4efff] px-2 py-1 text-[9px] font-bold uppercase text-[#00666e]">
+          Bulletin
+        </span>
+      </div>
+      <div className="mt-4 space-y-4">
+        {items.map((item) => (
+          <Link
+            href={`/news-events/${item.slug}`}
+            key={item.id}
+            className="flex gap-3"
+          >
+            <img
+              src={resolveMediaUrl(item.image)}
+              alt=""
+              className="size-14 shrink-0 rounded-xl object-cover"
+            />
+            <span className="min-w-0">
+              <span className="block text-[10px] font-bold text-[#b5005d]">
+                {formatNewsDate(item.date)}
+              </span>
+              <span className="mt-1 line-clamp-2 block text-xs font-bold leading-4 text-[#101c29]">
+                {item.title}
+              </span>
+            </span>
+          </Link>
+        ))}
+      </div>
+      <Link
+        href="/news-events"
+        className="mt-4 inline-flex items-center gap-1 text-[10px] font-extrabold text-[#b5005d]"
+      >
+        View all stories <ArrowRight size={12} />
+      </Link>
     </aside>
   );
 }
 
-export function PublicArticlePage({ article, latest }: { article: NewsEvent; latest: NewsEvent[] }) {
-  const paragraphs = (article.content || article.shortDescription).split(/\n{2,}/).map((paragraph) => paragraph.trim()).filter(Boolean);
-  const readMinutes = Math.max(1, Math.ceil((article.content || "").split(/\s+/).length / 200));
+export function PublicArticlePage({
+  article,
+  latest,
+}: {
+  article: NewsEvent;
+  latest: NewsEvent[];
+}) {
+  const paragraphs = (article.content || article.shortDescription)
+    .split(/\n{2,}/)
+    .map((paragraph) => paragraph.trim())
+    .filter(Boolean);
+  const readMinutes = Math.max(
+    1,
+    Math.ceil((article.content || "").split(/\s+/).length / 200),
+  );
   return (
     <PublicShell>
       <main className="bg-[#f8f9ff]">
         <section className="relative overflow-hidden bg-[#001c3a] px-5 pb-12 pt-5 text-white md:px-10 md:pb-14">
           <div className="mx-auto max-w-7xl">
-            <div className="mb-5 flex flex-wrap items-center gap-2 text-[10px] text-white/65"><Link href="/">Home</Link><ChevronRight size={12}/><Link href="/news-events">News &amp; Events</Link><ChevronRight size={12}/><span className="text-white">{article.title}</span></div>
-            <div className="flex flex-wrap items-center gap-2 text-[10px] font-bold"><span className="rounded-full bg-[#00818b] px-3 py-1 uppercase">✦ {article.category}</span><span className="rounded-full bg-white/10 px-3 py-1"><CalendarDays className="mr-1 inline" size={12}/>{formatNewsDate(article.date)}</span><span className="rounded-full bg-white/10 px-3 py-1">◷ {readMinutes} min read</span></div>
-            <h1 className="mt-3 max-w-4xl font-display text-3xl font-black uppercase leading-[1.06] sm:text-5xl">{article.title}</h1>
-            <p className="mt-4 max-w-3xl text-sm leading-6 text-white/80">{article.shortDescription}</p>
-            <p className="mt-4 text-[10px] font-semibold text-white/75"><span className="mr-2 inline-grid size-6 place-items-center rounded-full bg-[#e01276]">M</span>The Manthan School Editorial Desk<br/><span className="ml-8 text-[#43d9e7]">◉ Sector 78 Campus, Noida</span></p>
-          </div><span className="absolute right-[10%] top-10 rotate-12 text-4xl text-white/15">➤</span><Wave/>
+            <div className="mb-5 flex flex-wrap items-center gap-2 text-[10px] text-white/65">
+              <Link href="/">Home</Link>
+              <ChevronRight size={12} />
+              <Link href="/news-events">News &amp; Events</Link>
+              <ChevronRight size={12} />
+              <span className="text-white">{article.title}</span>
+            </div>
+            <div className="flex flex-wrap items-center gap-2 text-[10px] font-bold">
+              <span className="rounded-full bg-[#00818b] px-3 py-1 uppercase">
+                ✦ {article.category}
+              </span>
+              <span className="rounded-full bg-white/10 px-3 py-1">
+                <CalendarDays className="mr-1 inline" size={12} />
+                {formatNewsDate(article.date)}
+              </span>
+              <span className="rounded-full bg-white/10 px-3 py-1">
+                ◷ {readMinutes} min read
+              </span>
+            </div>
+            <h1 className="mt-3 max-w-4xl font-display text-3xl font-black uppercase leading-[1.06] sm:text-5xl">
+              {article.title}
+            </h1>
+            <p className="mt-4 max-w-3xl text-sm leading-6 text-white/80">
+              {article.shortDescription}
+            </p>
+            <p className="mt-4 text-[10px] font-semibold text-white/75">
+              <span className="mr-2 inline-grid size-6 place-items-center rounded-full bg-[#e01276]">
+                M
+              </span>
+              The Manthan School Editorial Desk
+              <br />
+              <span className="ml-8 text-[#43d9e7]">
+                ◉ Sector 78 Campus, Noida
+              </span>
+            </p>
+          </div>
+          <span className="absolute right-[10%] top-10 rotate-12 text-4xl text-white/15">
+            ➤
+          </span>
+          <Wave />
         </section>
         <article className="mx-auto grid max-w-7xl gap-6 px-5 py-7 md:grid-cols-[minmax(0,1fr)_290px] md:px-10 md:py-9">
-          <div className="min-w-0"><div className="relative overflow-hidden rounded-2xl bg-[#d7e4f5]"><img src={resolveMediaUrl(article.image)} alt={article.title} className="aspect-[1.75] w-full object-cover"/><span className="absolute left-3 top-3 rounded-full bg-[#001c3a]/85 px-3 py-1 text-[9px] font-extrabold uppercase text-white">◉ {article.category} · The Manthan School</span></div><div className="mt-5 space-y-5 text-sm leading-7 text-[#5a3f47]">{paragraphs.map((paragraph,index)=><p key={`${index}-${paragraph.slice(0,24)}`}>{paragraph}</p>)}</div><div className="mt-6 flex flex-wrap items-center justify-between gap-3 border border-[#e4efff] bg-white px-4 py-3 text-[10px]"><Link href="/news-events" className="inline-flex items-center gap-1 font-bold text-[#355f96]"><ArrowLeft size={13}/> Back to all news &amp; events</Link><span className="text-[#8e6f77]">Share this story: &nbsp; ◉ &nbsp; f &nbsp; ↗ &nbsp; ♡</span></div></div>
-          <aside className="space-y-5"><div className="rounded-2xl border border-[#d7e4f5] bg-white p-5 shadow-sm"><p className="text-[9px] font-extrabold uppercase tracking-widest text-[#b5005d]">Admission 2027–28</p><h2 className="mt-1 font-display text-lg font-extrabold uppercase text-[#355f96]">Experience Manthan firsthand</h2><p className="mt-2 text-[10px] leading-4 text-[#5a3f47]">Admissions are open for Session 2027–28. Book a personalised classroom walkthrough today.</p><EnquiryFormCompact/><p className="mt-3 rounded-full bg-[#eef4ff] px-3 py-2 text-center text-[9px] font-bold text-[#355f96]">☎ Call us back instantly: 0120-7133925</p></div><LatestUpdates items={latest}/></aside>
+          <div className="min-w-0">
+            <div className="relative overflow-hidden rounded-2xl bg-[#d7e4f5]">
+              <img
+                src={resolveMediaUrl(article.image)}
+                alt={article.title}
+                className="aspect-[1.75] w-full object-cover"
+              />
+              <span className="absolute left-3 top-3 rounded-full bg-[#001c3a]/85 px-3 py-1 text-[9px] font-extrabold uppercase text-white">
+                ◉ {article.category} · The Manthan School
+              </span>
+            </div>
+            <div className="mt-5 space-y-5 text-sm leading-7 text-[#5a3f47]">
+              {paragraphs.map((paragraph, index) => (
+                <p key={`${index}-${paragraph.slice(0, 24)}`}>{paragraph}</p>
+              ))}
+            </div>
+            <div className="mt-6 flex flex-wrap items-center justify-between gap-3 border border-[#e4efff] bg-white px-4 py-3 text-[10px]">
+              <Link
+                href="/news-events"
+                className="inline-flex items-center gap-1 font-bold text-[#355f96]"
+              >
+                <ArrowLeft size={13} /> Back to all news &amp; events
+              </Link>
+              <span className="text-[#8e6f77]">
+                Share this story: &nbsp; ◉ &nbsp; f &nbsp; ↗ &nbsp; ♡
+              </span>
+            </div>
+          </div>
+          <aside className="space-y-5">
+            <div className="rounded-2xl border border-[#d7e4f5] bg-white p-5 shadow-sm">
+              <p className="text-[9px] font-extrabold uppercase tracking-widest text-[#b5005d]">
+                Admission 2027–28
+              </p>
+              <h2 className="mt-1 font-display text-lg font-extrabold uppercase text-[#355f96]">
+                Experience Manthan firsthand
+              </h2>
+              <p className="mt-2 text-[10px] leading-4 text-[#5a3f47]">
+                Admissions are open for Session 2027–28. Book a personalised
+                classroom walkthrough today.
+              </p>
+              <EnquiryFormCompact />
+              <p className="mt-3 rounded-full bg-[#eef4ff] px-3 py-2 text-center text-[9px] font-bold text-[#355f96]">
+                ☎ Call us back instantly: 0120-7133925
+              </p>
+            </div>
+            <LatestUpdates items={latest} />
+          </aside>
         </article>
-        <section className="bg-[#eef4ff] px-5 py-10 md:px-10"><div className="mx-auto max-w-7xl"><div className="mb-5 flex items-end justify-between"><div><p className="text-[10px] font-extrabold uppercase tracking-widest text-[#b5005d]">Discover more stories</p><h2 className="mt-1 font-display text-2xl font-extrabold uppercase text-[#355f96]">More from the event diary</h2></div><Link href="/news-events" className="text-xs font-bold text-[#b5005d]">View all <ArrowRight className="ml-1 inline" size={14}/></Link></div><div className="grid gap-4 md:grid-cols-3">{latest.map((story)=><Link key={story.id} href={`/news-events/${story.slug}`} className="group overflow-hidden rounded-2xl bg-white"><img src={resolveMediaUrl(story.image)} alt={story.title} className="h-36 w-full object-cover transition group-hover:scale-[1.02]"/><div className="p-4"><span className="text-[9px] font-extrabold uppercase text-[#00818b]">{story.category} · {formatNewsDate(story.date)}</span><h3 className="mt-2 line-clamp-2 text-xs font-extrabold text-[#355f96]">{story.title}</h3><p className="mt-2 text-[10px] font-bold text-[#b5005d]">Read story →</p></div></Link>)}</div></div></section>
-        <section className="bg-[#001c3a] px-5 py-12 text-center text-white md:px-10"><p className="mx-auto inline-flex rounded-full bg-white/10 px-3 py-1 text-[9px] font-bold text-[#85f3ff]">OPEN CLASSROOMS, EVERY WEEK</p><h2 className="mx-auto mt-3 max-w-2xl font-display text-3xl font-black uppercase">Bring your child. Watch one session. Decide after that.</h2><p className="mx-auto mt-3 max-w-xl text-xs text-white/70">Experience our experiential learning ateliers, meet our caring educators, and witness joyful discovery in action.</p><Link href="/enquiry" className="mt-5 inline-flex rounded-full bg-[#b5005d] px-6 py-3 text-xs font-extrabold uppercase">Enquire about admission <ArrowRight className="ml-2 inline" size={14}/></Link></section>
+        <section className="bg-[#eef4ff] px-5 py-10 md:px-10">
+          <div className="mx-auto max-w-7xl">
+            <div className="mb-5 flex items-end justify-between">
+              <div>
+                <p className="text-[10px] font-extrabold uppercase tracking-widest text-[#b5005d]">
+                  Discover more stories
+                </p>
+                <h2 className="mt-1 font-display text-2xl font-extrabold uppercase text-[#355f96]">
+                  More from the event diary
+                </h2>
+              </div>
+              <Link
+                href="/news-events"
+                className="text-xs font-bold text-[#b5005d]"
+              >
+                View all <ArrowRight className="ml-1 inline" size={14} />
+              </Link>
+            </div>
+            <div className="grid gap-4 md:grid-cols-3">
+              {latest.map((story) => (
+                <Link
+                  key={story.id}
+                  href={`/news-events/${story.slug}`}
+                  className="group overflow-hidden rounded-2xl bg-white"
+                >
+                  <img
+                    src={resolveMediaUrl(story.image)}
+                    alt={story.title}
+                    className="h-36 w-full object-cover transition group-hover:scale-[1.02]"
+                  />
+                  <div className="p-4">
+                    <span className="text-[9px] font-extrabold uppercase text-[#00818b]">
+                      {story.category} · {formatNewsDate(story.date)}
+                    </span>
+                    <h3 className="mt-2 line-clamp-2 text-xs font-extrabold text-[#355f96]">
+                      {story.title}
+                    </h3>
+                    <p className="mt-2 text-[10px] font-bold text-[#b5005d]">
+                      Read story →
+                    </p>
+                  </div>
+                </Link>
+              ))}
+            </div>
+          </div>
+        </section>
+        <section className="bg-[#001c3a] px-5 py-12 text-center text-white md:px-10">
+          <p className="mx-auto inline-flex rounded-full bg-white/10 px-3 py-1 text-[9px] font-bold text-[#85f3ff]">
+            OPEN CLASSROOMS, EVERY WEEK
+          </p>
+          <h2 className="mx-auto mt-3 max-w-2xl font-display text-3xl font-black uppercase">
+            Bring your child. Watch one session. Decide after that.
+          </h2>
+          <p className="mx-auto mt-3 max-w-xl text-xs text-white/70">
+            Experience our experiential learning ateliers, meet our caring
+            educators, and witness joyful discovery in action.
+          </p>
+          <Link
+            href="/enquiry"
+            className="mt-5 inline-flex rounded-full bg-[#b5005d] px-6 py-3 text-xs font-extrabold uppercase"
+          >
+            Enquire about admission{" "}
+            <ArrowRight className="ml-2 inline" size={14} />
+          </Link>
+        </section>
       </main>
     </PublicShell>
   );

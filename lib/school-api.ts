@@ -157,9 +157,12 @@ export async function getNewsEventBySlug(
   slug: string,
 ): Promise<SingleResponse<NewsEvent> | null> {
   try {
-    const res = await fetch(`${API_V1}/news-events/${encodeURIComponent(slug)}`, {
-      next: { revalidate: 30 },
-    });
+    const res = await fetch(
+      `${API_V1}/news-events/${encodeURIComponent(slug)}`,
+      {
+        next: { revalidate: 30 },
+      },
+    );
     if (res.status === 404 || !res.ok) return null;
     return await parseJson<SingleResponse<NewsEvent>>(res);
   } catch {
@@ -167,9 +170,7 @@ export async function getNewsEventBySlug(
   }
 }
 
-export async function createEnquiry(
-  payload: EnquiryPayload,
-): Promise<
+export async function createEnquiry(payload: EnquiryPayload): Promise<
   | { ok: true; message: string }
   | {
       ok: false;
@@ -339,6 +340,8 @@ export async function adminRetryEnquiryCrm(id: string) {
   redirectExpiredAdminSession(res);
   return {
     status: res.status,
-    ...(await parseJson<{ success: boolean; data?: Enquiry; message?: string }>(res)),
+    ...(await parseJson<{ success: boolean; data?: Enquiry; message?: string }>(
+      res,
+    )),
   };
 }

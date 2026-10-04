@@ -7,8 +7,12 @@ import { Toaster } from "sonner";
 import { NuqsAdapter } from "nuqs/adapters/next/app";
 
 export const metadata: Metadata = {
-  title: { default: "The Manthan School | Noida", template: "%s | The Manthan School" },
-  description: "Discover campus news, events and admissions at The Manthan School, Noida.",
+  title: {
+    default: "The Manthan School | Noida",
+    template: "%s | The Manthan School",
+  },
+  description:
+    "Discover campus news, events and admissions at The Manthan School, Noida.",
   authors: [{ name: "The Manthan School" }],
   robots: "index, follow",
 };

@@ -22,7 +22,9 @@ export function EnquiryForm() {
     setFieldErrors({});
     const formData = new FormData(event.currentTarget);
     if (!formData.get("consent")) {
-      setFieldErrors({ consent: "Please agree to be contacted about admissions." });
+      setFieldErrors({
+        consent: "Please agree to be contacted about admissions.",
+      });
       setBusy(false);
       return;
     }
@@ -37,15 +39,15 @@ export function EnquiryForm() {
         email: String(formData.get("email") || "").trim(),
         message: String(formData.get("message") || "").trim(),
       });
-      if (result.ok) {
-        setDone(true);
-        setMessage(result.message || "Thanks. Your enquiry has been received.");
-      } else {
+      if ("errors" in result) {
         setFieldErrors(result.errors || {});
         setMessage(
           result.message ||
             "We could not submit your enquiry. Please try again.",
         );
+      } else {
+        setDone(true);
+        setMessage(result.message || "Thanks. Your enquiry has been received.");
       }
     } catch {
       setMessage("We could not connect to admissions. Please try again.");
@@ -107,7 +109,11 @@ export function EnquiryForm() {
               <option key={item}>{item}</option>
             ))}
           </select>
-          {fieldErrors.classApplying && <span className="text-[10px] font-medium text-red-600">{fieldErrors.classApplying}</span>}
+          {fieldErrors.classApplying && (
+            <span className="text-[10px] font-medium text-red-600">
+              {fieldErrors.classApplying}
+            </span>
+          )}
         </label>
         <label className="grid gap-1.5 text-[10px] font-bold text-[#26313f]">
           Mobile Number <b className="text-[#b5005d]">*</b>
@@ -129,7 +135,11 @@ export function EnquiryForm() {
             />
             <Phone size={14} className="mr-3 self-center text-[#8e6f77]" />
           </span>
-          {fieldErrors.mobile && <span className="text-[10px] font-medium text-red-600">{fieldErrors.mobile}</span>}
+          {fieldErrors.mobile && (
+            <span className="text-[10px] font-medium text-red-600">
+              {fieldErrors.mobile}
+            </span>
+          )}
         </label>
         <label className="grid gap-1.5 text-[10px] font-bold text-[#26313f] sm:col-span-2">
           Email Address{" "}
@@ -146,7 +156,11 @@ export function EnquiryForm() {
             />
             <Mail size={14} className="text-[#8e6f77]" />
           </span>
-          {fieldErrors.email && <span className="text-[10px] font-medium text-red-600">{fieldErrors.email}</span>}
+          {fieldErrors.email && (
+            <span className="text-[10px] font-medium text-red-600">
+              {fieldErrors.email}
+            </span>
+          )}
         </label>
         <label className="grid gap-1.5 text-[10px] font-bold text-[#26313f] sm:col-span-2">
           Specific Questions or Notes{" "}
@@ -172,7 +186,11 @@ export function EnquiryForm() {
           campus via Call, WhatsApp, or SMS.
         </span>
       </label>
-      {fieldErrors.consent && <p className="mt-1 text-[10px] font-medium text-red-600">{fieldErrors.consent}</p>}
+      {fieldErrors.consent && (
+        <p className="mt-1 text-[10px] font-medium text-red-600">
+          {fieldErrors.consent}
+        </p>
+      )}
       <button
         disabled={busy || done}
         className="mt-5 inline-flex w-full items-center justify-center gap-2 rounded-full bg-[#e01276] px-6 py-3.5 text-xs font-extrabold uppercase text-white shadow-[0_8px_18px_rgba(181,0,93,.25)] transition hover:bg-[#b5005d] disabled:cursor-not-allowed disabled:opacity-60"
@@ -222,7 +240,9 @@ function Field({
         />
         {icon}
       </span>
-      {error && <span className="text-[10px] font-medium text-red-600">{error}</span>}
+      {error && (
+        <span className="text-[10px] font-medium text-red-600">{error}</span>
+      )}
     </label>
   );
 }
